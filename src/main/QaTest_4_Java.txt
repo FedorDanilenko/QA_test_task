@@ -1,0 +1,98 @@
+1. Класс Person с полями name, age. С конструктором, геттерами и сеттерами.
+
+import org.jetbrains.annotations.NotNull;
+
+public class Person {
+
+    private String name;
+    private int age;
+
+    public Person(@NotNull String name, int age) {
+        this.name = name;
+        if (age <= 0) throw new IllegalArgumentException("Age must be > 0");
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+
+
+2. Метод для получения списка имен 18и-летних
+
+import java.util.List;
+
+public class AgeFilter {
+
+    public static List<String> is18(List<Person> persons) {
+        return persons.stream()
+                .filter(person -> person.getAge() >= 18)
+                .map(Person::getName)
+                .toList();
+    }
+}
+
+Тесты:
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.example.AgeFilter.is18;
+import static org.junit.jupiter.api.Assertions.*;
+
+class AgeFilterTest {
+
+    private List<Person> persons = new ArrayList<>();
+
+    @BeforeEach
+    void clearList() {
+        persons.clear();
+    }
+
+    @Test
+    void testCreatePerson() {
+        Person person = new Person("Person", 20);
+        assertEquals("Person", person.getName());
+        assertEquals(20, person.getAge());
+    }
+
+    @Test
+    void testCreatePersonWithNullArg() {
+        assertThrows(IllegalArgumentException.class, () -> new Person(null, 20));
+    }
+
+    @Test
+    void testCreatePersonWith0Age() {
+        assertThrows(IllegalArgumentException.class, () -> new Person("John", 0));
+    }
+
+    @Test
+    void filterAgeTest() {
+        persons.add(new Person("Jake" , 32));
+        persons.add(new Person("Finn", 17));
+        persons.add(new Person("Ice King", 1043));
+        persons.add(new Person("Flame Princess", 16));
+        persons.add(new Person("Marceline", 1000));
+
+        List<String> expectedNames = List.of(new String[]{"Jake", "Ice King", "Marceline"});
+
+        assertEquals(expectedNames, is18(persons));
+    }
+}
+

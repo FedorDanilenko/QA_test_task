@@ -1,0 +1,16 @@
+1. Создание таблицы
+
+CREATE TABLE orders WITH (
+    order_id    INT NOT NULL,
+    customer_id INT NOT NULL,
+    product_id  INT NOT NULL,
+    order_data  DATE NOT NULL,
+    quantity    INT NOT NULL,
+    PRIMARY KEY (order_id)
+);
+
+2. Получение заказов с определенными атрибутами и запросами. Сделанны в апреле 2023 и с количеством заказов более 10
+
+SELECT * FROM orders
+WHERE order_data BETWEEN '2023-04-01' AND '2023-04-30'
+AND quantity > 10;

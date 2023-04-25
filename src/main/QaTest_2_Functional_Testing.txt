@@ -1,0 +1,54 @@
+Тестовые случаи для функции:
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+1.Тестирование на позитивные значения:
+    - Создание двух положительных целых чисел и передача их в метод add()
+    - Сравнение результата с ожидаемым значением, которое должно быть равно сумме переданных чисел
+
+2. Тестирование на большие значения:
+   - Создание двух больших целых чисел (например, Integer.MAX_VALUE) и передача их в метод add()
+   - Проверка, что метод add() обрабатывает большие числа без ошибок и возвращает корректный результат
+
+3. Тестирование на обработку null-значений:
+   - Передача одного или обоих параметров метода add() со значением null
+   - Проверка, что метод add() возвращает корректное исключение или сообщение об ошибке при обнаружении null-значений
+
+Реализация сценариев на java:
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class SumTest {
+
+    private Sum sum = new Sum();
+
+    @Test // 1й тестовый сценарий
+    void simpleTest(){
+        assertEquals(5, sum.add(2,3));
+    }
+
+    @Test // 2й тестовый сценарий
+    void testBigInt() {
+        int expected = Integer.MAX_VALUE + Integer.MAX_VALUE;
+        assertEquals(expected, sum.add(Integer.MAX_VALUE, Integer.MAX_VALUE));
+    }
+
+    @Test // 3й тестовый сценарий
+    void textException() {
+        String str = "string";
+        Integer integer = Integer.getInteger(str); // integer = null
+        assertThrows(NullPointerException.class, () -> sum.add(0, integer));
+    }
+}
+
+Класс Sum:
+
+public class Sum {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
